@@ -30,23 +30,15 @@ module.exports = {
   },
 
   createUser(request, response){
-    let body = ''
+    const body = request.body
 
-    request.on('data', (chunk) => {
-      body += chunk
-    })
+    const newUser = {
+      id: randomUUID(),
+      name: body.name
+    }
 
-    request.on('end', () => {
-      body = JSON.parse(body)
+    users.push(newUser)
 
-      const newUser = {
-        id: randomUUID(),
-        name: body.name
-      }
-
-      users.push(newUser)
-
-      response.send(200, newUser)
-    })
+    response.send(200, newUser)
   }
 }
