@@ -64,5 +64,13 @@ module.exports = {
     })
 
     response.send(200, { id, name })
+  },
+
+  deleteUser(request, response){
+    const { id } = request.params
+
+    users = users.filter((user) => user.id !== id)
+
+    response.send(200, { deleted: true })
   }
 }
