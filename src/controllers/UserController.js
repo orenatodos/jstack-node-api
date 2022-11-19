@@ -1,3 +1,5 @@
+const { randomUUID } = require('crypto')
+
 const users = require('../mocks/users')
 
 module.exports = {
@@ -25,5 +27,26 @@ module.exports = {
     } 
 
     response.send(200, user)
+  },
+
+  createUser(request, response){
+    let body = ''
+
+    request.on('data', (chunk) => {
+      body += chunk
+    })
+
+    request.on('end', () => {
+      body = JSON.parse(body)
+
+      const newUser = {
+        id: randomUUID(),
+        name: body.name
+      }
+
+      users.push(newUser)
+
+      response.send(200, newUser)
+    })
   }
 }
